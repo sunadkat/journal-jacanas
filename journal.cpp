@@ -1,14 +1,15 @@
 #include <iostream>
 #include <ctime>
 #include <fstream>
+#include <string.h>
 using namespace std;
 /*
  * Simple Program intended to create template for journals
- * and automatically open them in sublime after creation 
- * with cursor at the required location. Automatically logs 
+ * and automatically open them in sublime after creation
+ * with cursor at the required location. Automatically logs
  * timestamp of the entry.
  * REFERENCE FOR MY PURPOSES
- * Sublime accepts argument ':line-number:column-number' to indicate position for the cursor. 
+ * Sublime accepts argument ':line-number:column-number' to indicate position for the cursor.
  */
 
 bool validate_date(char const date_to_validate[]){
@@ -19,7 +20,7 @@ bool validate_date(char const date_to_validate[]){
 		printf("Input is longer than expected\n");
 		return false;
 	}
-	for (int i = 0; i < strlen(date_to_validate); ++i)
+	for (unsigned int i = 0; i < strlen(date_to_validate); ++i)
 	{
 		//0123-56-89
 		if (i == 4 || i == 7)
