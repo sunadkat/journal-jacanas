@@ -70,7 +70,7 @@ int main(int argc, char const *argv[])
 	mktime(&journal_time);
 	target_time = journal_time; //Making target_time and journal time equivalent
 	//check for existing journal for specified week (containing date)
-	char file_name[strlen("1970-01-01 Journal.md")];
+	char file_name[] = "1970-01-01 Journal.md";
 	std::ifstream fs;
 	// for (int i = 0; i < 7 && !fs.is_open; ++i)
 	// {
