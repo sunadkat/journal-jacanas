@@ -7,6 +7,8 @@
  */
 
 #include <iostream>
+#include <sstream>
+#include <cstdio>
 #include <ctime>
 #include <fstream>
 #include <string.h>
@@ -79,11 +81,57 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 	std::string timestamp_formatted = timestamp;
 	timestamp_formatted.append("\n\n");
 	journal_text.insert(entry_pos, timestamp_formatted);
-	std::cout << journal_text << endl;
+	// std::cout << journal_text << endl;
 	fs.close();
 	fs.open(path, std::ios::out); // open in write only mode
 	fs << journal_text;
-	fs.close();	
+	fs.close();
+	int line_number = 0;
+	for (int i = 0; i < entry_pos; ++i)
+	{
+		if (journal_text[i] == '\n')
+		{
+			line_number++;
+		}
+	}
+	char program_call[100];
+	for (int i = 0; i < 100; ++i)
+	{
+		program_call[i] = 0;
+	}
+	int j = 0;
+	char path_escaped[256];
+	for (int i = 0; i < strlen(path); ++i)
+	{
+		if (path[i] == ' ')
+		{
+			path_escaped[j] = '\\';
+			j++;
+			path_escaped[j] = ' ';
+			j++;
+		}
+		else
+		{
+			path_escaped[j] = path[i];
+			j++;
+		}
+	}
+	snprintf(program_call, 100, "subl %s:%d:%d -n", path_escaped, line_number + 2,0);
+	program_call[strlen(program_call)] = 0;
+	std::cout << program_call << endl;
+	// char column_selector[100];
+	// char subl[100];
+	// snprintf(subl, 100, "subl");
+	// char n[100];
+	// snprintf(n, 100, "-n");
+	// snprintf(column_selector, 100, ":0:%d" ,entry_pos);
+	// char* args[] = {subl, path_escaped, column_selector, n};
+	// int pid = fork();
+	// if (pid == 0)
+	// {
+	// 	execvp(args[0], args);
+	// }
+	system(program_call);
 	return 0;
 }
 
@@ -119,11 +167,6 @@ bool validate_date(char const date_to_validate[]){
  */
 int main(int argc, char const *argv[])
 {
-
-	std::fstream test_stream;
-	test_stream.open("/User/Josh/Downloads/test.txt", std::ios::out);
-	test_stream << "Amazing journal" << std::endl;
-	test_stream.close();
 	time_t raw_time = time(NULL);
 	struct tm target_time = *localtime(&raw_time); //Date which is to be written about, defaults to current time
 	struct tm journal_time = *localtime(&raw_time);//Date of the journal itself

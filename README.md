@@ -3,6 +3,7 @@ This is a collection of minor tools and scripts which have at some point been us
 ##Journal
 This will create simple journal template and open them if they already exist. Examples of journal templates will be shown below. Journals are in markdown format.
 
+**WARNING** This currently uses a system call to run "subl" which should open up sublime with some arguments. However this is very unsafe. Use at your own risk.
 
 2016-02-21
 Foldername
