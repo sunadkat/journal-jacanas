@@ -18,7 +18,28 @@ using namespace std;
  * REFERENCE FOR MY PURPOSES
  * Sublime accepts argument ':line-number:column-number' to indicate position for the cursor.
  */
-
+int journal_raw_template(char path[],tm target_time, tm journal_time){
+	std::fstream fs;
+	fs.open(path, std::ios::in | std::ios::out | std::ios::app);
+	//Currently template is hard coded, will not be in the distant future.
+	char temp_date[] = "1969-12-31";
+	strftime(temp_date, strlen("1970-01-01"), "%F", &journal_time);
+	// Creating header
+	fs 	<< temp_date << std::endl
+		<< "Informal" << std::endl
+		<< "Journal" << std::endl
+		<< "Joshua Wu" << std::endl << std::endl;
+	// Creating date headings
+	for (int i = 0; i < 7; ++i)
+	{
+		journal_time.tm_mday -= 1;
+		mktime(&journal_time);
+		strftime(temp_date, strlen("1970-01-01"), "%F", &journal_time);
+		fs << "###" << temp_date << std::endl;
+	}
+	fs.close();
+	return 0;
+}
 bool validate_date(char const date_to_validate[]){
 	//Ahaha get it?                 ^^^^
 	if (strlen(date_to_validate) > 10)
@@ -58,7 +79,7 @@ int main(int argc, char const *argv[])
 	test_stream.close();
 	time_t raw_time = time(NULL);
 	struct tm target_time = *localtime(&raw_time); //Date which is to be written about, defaults to current time
-	struct tm journal_time = *localtime(&raw_time);
+	struct tm journal_time = *localtime(&raw_time);//Date of the journal itself
 	// struct tm current_time = *localtime(&raw_time);
 	//check for arguments to program
 	if (argc > 1 && strcmp(argv[1], "-n")) //If the user has entered something other than 'journal -n'
@@ -97,11 +118,10 @@ int main(int argc, char const *argv[])
 	 * PATH! Edit this for your computer. Note that spaces **DO NOT NEED TO BE ESCAPED**
 	 */
 	char path[256] = "/Users/Josh/Google Drive/Informal/Journal/";
-	strcat(path, file_name);
 	/*
 	 *
 	 */
-
+	strcat(path, file_name);
 	//Check if file exists
 	struct stat buf;
 	if (stat(path, &buf) == -1)
@@ -109,6 +129,8 @@ int main(int argc, char const *argv[])
 		//File does not exist
 		std::cout << path << " does not exist. Creating new file." << std::endl;
 		fs.open(path, std::ios::out);
+		//Write template
+		journal_raw_template(path, target_time, journal_time);
 		fs.close();
 	}
 	std::cout << "Attempting to open path: \"" << path << "\"" << std::endl << std::endl;
