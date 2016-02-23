@@ -93,7 +93,7 @@ int main(int argc, char const *argv[])
 	// char path[256] = "/Users/Josh/Google\\ Drive/Informal/Journal/";
 	char path[0];
 	printf("Attempting to open: \"%s%s\"\n",path, file_name );
-	fs.open(strcat(path,file_name), fstream::in | fstream::out);
+	fs.open(strcat(path,file_name), ios::in | ios::out);
 	if (!fs.is_open())
 	{
 		printf("%s not found, attemping to make %s\n",file_name, file_name );
