@@ -1,8 +1,9 @@
 #Utilities
+This is a collection of minor tools and scripts which have at some point been useful to me or fun to make.
 ##Journal
 This will create simple journal template and open them if they already exist. Examples of journal templates will be shown below. Journals are in markdown format.
 
-```
+
 2016-02-21
 Foldername
 Journal
@@ -18,5 +19,7 @@ If the program is called with an ISO8601 date as the first argument, the journal
 
 
 ###2016-02-17
-...
-###Seventh day of week
+.
+.
+.
+###2016-02-21
