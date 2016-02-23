@@ -133,6 +133,10 @@ int main(int argc, char const *argv[])
 		journal_raw_template(path, target_time, journal_time);
 		fs.close();
 	}
+	else
+	{
+		std::cout << path << " exists" << endl;
+	}
 	std::cout << "Attempting to open path: \"" << path << "\"" << std::endl << std::endl;
 	fs.open(path, std::ios::in | std::ios::out | std::ios::app);
 
