@@ -13,6 +13,7 @@
 #include <sys/stat.h>
 #include <exception>
 #include <stdexcept>
+#include <vector>
 using namespace std;
 
 /*
@@ -31,16 +32,61 @@ int journal_raw_template(char path[],tm target_time, tm journal_time){
 		<< "Journal" << std::endl
 		<< "Joshua Wu" << std::endl << std::endl;
 	// Creating date headings
-	for (int i = 0; i < 7; ++i)
+	for (int i = 6; i >= 0; --i)
 	{
-		journal_time.tm_mday -= 1;
+		journal_time.tm_mday -= i;
 		mktime(&journal_time);
 		strftime(temp_date, strlen("1970-01-01"), "%F", &journal_time);
+		journal_time.tm_mday += i;
 		fs << "###" << temp_date << std::endl;
 	}
 	fs.close();
 	return 0;
 }
+
+int journal_timestamp_open(char path[],tm target_time, tm journal_time){
+	std::fstream fs;
+	fs.open(path, std::ios::in | std::ios::out);
+	string line_buffer;
+	time_t raw_time = time(NULL);
+	struct tm tm_timestamp = *localtime(&raw_time); //tm_timestamp contains current time for timestamp
+	// Copying the journal text into a string
+	std::string journal_text;
+	journal_text.assign( (std::istreambuf_iterator<char>(fs) ),
+                       (std::istreambuf_iterator<char>()    ) );
+	// check if the entry should be in the middle of the document
+	int entry_pos;
+	if (mktime(&target_time) != mktime(&journal_time))
+	{
+		target_time.tm_mday += 1;
+		char entry_date[] = "1969-12-31";
+		strftime(entry_date, strlen("1970-01-01"), "%F", &target_time); //String is entry date plus one
+		entry_pos = journal_text.rfind(entry_date, journal_text.length());
+		entry_pos -= 3; // Moving back three characters (the hash symbols)
+	}
+	else // Or at the end
+	{
+		entry_pos = journal_text.length();
+	}
+	// entry_pos is now indicating where to insert text
+	mktime(&target_time);
+	//Setting search strings and timestamp
+	char journal_date[] = "1969-12-31";
+	char timestamp[] = "1969-12-31T23:59";
+	strftime(timestamp, strlen("1969-12-31T23:59"), "%FT%R", &tm_timestamp); //String is formatted for current timestamp
+	strftime(journal_date, strlen("1970-01-01"), "%F", &journal_time); //String is entry date plus one
+
+	std::string timestamp_formatted = timestamp;
+	timestamp_formatted.append("\n\n");
+	journal_text.insert(entry_pos, timestamp_formatted);
+	std::cout << journal_text << endl;
+	fs.close();
+	fs.open(path, std::ios::out); // open in write only mode
+	fs << journal_text;
+	fs.close();	
+	return 0;
+}
+
 bool validate_date(char const date_to_validate[]){
 	//Ahaha get it?                 ^^^^
 	if (strlen(date_to_validate) > 10)
@@ -106,7 +152,7 @@ int main(int argc, char const *argv[])
 	//check for existing journal for specified week (containing date)
 	char file_name[] = "1970-01-01 Journal.md";
 	std::fstream fs;
-
+	mktime(&target_time);
 	if (journal_time.tm_wday != 0)
 	{
 		//Journal time is now set to the journal name
@@ -147,6 +193,7 @@ int main(int argc, char const *argv[])
 		<< "File could not be opened" << std::endl;
 		throw std::runtime_error("File could not be opened\n");
 	}
+	journal_timestamp_open(path, target_time, journal_time);
 	// write current date/time to journal after date entry
 	// open in sublime with cursor at line below logging
 	fs.close();
