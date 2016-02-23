@@ -64,7 +64,8 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 		char entry_date[] = "1969-12-31";
 		strftime(entry_date, strlen("1970-01-01"), "%F", &target_time); //String is entry date plus one
 		entry_pos = journal_text.rfind(entry_date, journal_text.length());
-		entry_pos -= 3; // Moving back three characters (the hash symbols)
+		entry_pos = journal_text.rfind("\n", entry_pos -2 );
+		// entry_pos -= 3; // Moving back three characters (the hash symbols)
 	}
 	else // Or at the end
 	{
