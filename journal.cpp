@@ -12,6 +12,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <exception>
+#include <stdexcept>
 using namespace std;
 
 /*
