@@ -2,6 +2,7 @@
 #include <ctime>
 #include <fstream>
 #include <string.h>
+#include <sys/stat.h>
 using namespace std;
 /*
  * Simple Program intended to create template for journals
@@ -89,17 +90,18 @@ int main(int argc, char const *argv[])
 	}
 	//create file name for next sunday
 	strftime(file_name, strlen("1970-01-01 Journal.md"), "%F Journal.md", &journal_time);
-	//Attempt to open file
-	// char path[256] = "/Users/Josh/Google\\ Drive/Informal/Journal/";
-	char path[0];
-	printf("Attempting to open: \"%s%s\"\n",path, file_name );
-	fs.open(strcat(path,file_name), ios::in | ios::out);
-	if (!fs.is_open())
+	char path[256] = "/Users/Josh/Google\\ Drive/Informal/Journal/";
+	strcat(path, file_name);
+
+	//Check if file exists
+	struct stat buf;
+	if (stat(path, &buf) == -1)
 	{
-		printf("%s not found, attemping to make %s\n",file_name, file_name );
-		//create new file using file_name
-		//open file
+		//File does not exist
+		std::cout << path << " does not exist. Attempting to create file." << std::endl;
 	}
+	std::cout << "Attempting to open path: " << path << std::endl;
+	fs.open(path, ios::in | ios::out);
 	// write current date/time to journal after date entry
 	// open in sublime with cursor at line below logging
 	return 0;
