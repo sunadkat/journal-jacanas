@@ -79,7 +79,7 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 	strftime(journal_date, strlen("1970-01-01"), "%F", &journal_time); //String is entry date plus one
 
 	std::string timestamp_formatted = timestamp;
-	timestamp_formatted.append("\n\n");
+	timestamp_formatted.append("\n\n\n");
 	journal_text.insert(entry_pos, timestamp_formatted);
 	// std::cout << journal_text << endl;
 	fs.close();
