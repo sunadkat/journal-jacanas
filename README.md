@@ -6,8 +6,11 @@ This will create simple journal template and open them if they already exist. Ex
 **WARNING** This currently uses a system call to run "subl" which should open up sublime with some arguments. However this is very unsafe. Use at your own risk.
 
 2016-02-21
+
 Foldername
+
 Journal
+
 John Smith
 
 ###2016-02-15
