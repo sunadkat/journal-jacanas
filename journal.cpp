@@ -79,8 +79,9 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 	strftime(timestamp, strlen("1969-12-31T23:59"), "%FT%R", &tm_timestamp); //String is formatted for current timestamp
 	strftime(journal_date, strlen("1970-01-01"), "%F", &journal_time); //String is entry date plus one
 
-	std::string timestamp_formatted = timestamp;
-	timestamp_formatted.append("\n\n\n");
+	std::string timestamp_formatted = "\n";
+	timestamp_formatted.append(timestamp);
+	timestamp_formatted.append("\n\n");
 	journal_text.insert(entry_pos, timestamp_formatted);
 	// std::cout << journal_text << endl;
 	fs.close();
@@ -117,7 +118,7 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 			j++;
 		}
 	}
-	snprintf(program_call, 100, "subl %s:%d:%d -n", path_escaped, line_number + 2,0);
+	snprintf(program_call, 100, "subl %s:%d:%d -n", path_escaped, line_number + 3,0);
 	program_call[strlen(program_call)] = 0;
 	std::cout << program_call << endl;
 	// char column_selector[100];
