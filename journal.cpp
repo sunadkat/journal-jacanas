@@ -137,6 +137,63 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 	return 0;
 }
 
+int journal_timestamp_open_no_write(char path[],tm target_time, tm journal_time){
+	std::fstream fs;
+	fs.open(path, std::ios::in | std::ios::out);
+	string line_buffer;
+	time_t raw_time = time(NULL);
+	struct tm tm_timestamp = *localtime(&raw_time); //tm_timestamp contains current time for timestamp
+	// entry_pos is now indicating where to insert text
+	mktime(&target_time);
+	//Setting search strings and timestamp
+	char journal_date[] = "1969-12-31";
+	char timestamp[] = "1969-12-31T23:59";
+	strftime(timestamp, strlen("1969-12-31T23:59"), "%FT%R", &tm_timestamp); //String is formatted for current timestamp
+	strftime(journal_date, strlen("1970-01-01"), "%F", &journal_time); //String is entry date plus one
+	// std::cout << journal_text << endl;
+	fs.close();
+
+	char program_call[100];
+	for (int i = 0; i < 100; ++i)
+	{
+		program_call[i] = 0;
+	}
+	int j = 0;
+	char path_escaped[256];
+	for (int i = 0; i < strlen(path); ++i)
+	{
+		if (path[i] == ' ')
+		{
+			path_escaped[j] = '\\';
+			j++;
+			path_escaped[j] = ' ';
+			j++;
+		}
+		else
+		{
+			path_escaped[j] = path[i];
+			j++;
+		}
+	}
+	snprintf(program_call, 100, "subl %s -n", path_escaped);
+	program_call[strlen(program_call)] = 0;
+	std::cout << program_call << endl;
+	// char column_selector[100];
+	// char subl[100];
+	// snprintf(subl, 100, "subl");
+	// char n[100];
+	// snprintf(n, 100, "-n");
+	// snprintf(column_selector, 100, ":0:%d" ,entry_pos);
+	// char* args[] = {subl, path_escaped, column_selector, n};
+	// int pid = fork();
+	// if (pid == 0)
+	// {
+	// 	execvp(args[0], args);
+	// }
+	system(program_call);
+	return 0;
+}
+
 bool validate_date(char const date_to_validate[]){
 	//Ahaha get it?                 ^^^^
 	if (strlen(date_to_validate) > 10)
@@ -192,6 +249,18 @@ int main(int argc, char const *argv[])
 			}
 		}
 	}
+	// Check for -o argument to open without modifying document
+	bool flag_open = false;
+	if (argc > 1)
+	{
+		for (int i = 0; i < argc; ++i)
+		{
+			if (!strcmp(argv[i], "-o"))
+			{
+				flag_open = true;
+			}
+		}
+	}
 	mktime(&journal_time);
 	target_time = journal_time; //Making target_time and journal time equivalent
 	//check for existing journal for specified week (containing date)
@@ -238,7 +307,14 @@ int main(int argc, char const *argv[])
 		<< "File could not be opened" << std::endl;
 		throw std::runtime_error("File could not be opened\n");
 	}
-	journal_timestamp_open(path, target_time, journal_time);
+	if(!flag_open)
+	{
+		journal_timestamp_open(path, target_time, journal_time);
+	}
+	else
+	{
+		journal_timestamp_open_no_write(path, target_time, journal_time);
+	}
 	// write current date/time to journal after date entry
 	// open in sublime with cursor at line below logging
 	fs.close();
