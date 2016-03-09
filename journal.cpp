@@ -212,7 +212,7 @@ bool validate_date(char const date_to_validate[]){
 				return false;
 			}
 		}
-		else if(date_to_validate[i] > 57 || date_to_validate[i] < 48)
+		else if(date_to_validate[i] > 57 || date_to_validate[i] < 48) //ASCII Values representing decimal numbers
 		{
 			return false;
 		}
@@ -272,6 +272,10 @@ int main(int argc, char const *argv[])
 		//Journal time is now set to the journal name
 		journal_time.tm_mday += 7 - journal_time.tm_wday;
 		mktime(&journal_time);
+	}
+	if (journal_time.tm_wday != 0)
+	{
+		throw "File to open not set to the Sunday of the week!\n";
 	}
 	//create file name for next sunday
 	strftime(file_name, strlen("1970-01-01 Journal.md"), "%F Journal.md", &journal_time);
