@@ -270,11 +270,16 @@ int main(int argc, char const *argv[])
 	if (journal_time.tm_wday != 0)
 	{
 		//Journal time is now set to the journal name
+		journal_time.tm_min = 0;
+		journal_time.tm_hour = 0;
 		journal_time.tm_mday += 7 - journal_time.tm_wday;
 		mktime(&journal_time);
 	}
 	if (journal_time.tm_wday != 0)
 	{
+		char file_name_error[] = "1970-01-01 Journal.md";
+		strftime(file_name_error, strlen("1970-01-01 Journal.md"), "%F Journal.md", &journal_time);
+		printf("%s is the file attempted to be opened\n", file_name_error);
 		throw "File to open not set to the Sunday of the week!\n";
 	}
 	//create file name for next sunday
