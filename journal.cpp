@@ -249,7 +249,9 @@ int main(int argc, char const *argv[])
 			}
 		}
 	}
-	// Check for -o argument to open without modifying document
+	// Check for -o arguments
+	// -o: opens document without timestamp or setting to write
+	// -y: sets the day to one day before input (typically yesterday)
 	bool flag_open = false;
 	if (argc > 1)
 	{
@@ -258,6 +260,11 @@ int main(int argc, char const *argv[])
 			if (!strcmp(argv[i], "-o"))
 			{
 				flag_open = true;
+			}
+			else if(!strcmp(argv[i], "-y"))
+			{
+				journal_time.tm_mday -= 1;
+				mktime(&journal_time);
 			}
 		}
 	}
