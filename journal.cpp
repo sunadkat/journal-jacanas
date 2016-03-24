@@ -103,7 +103,7 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 	}
 	int j = 0;
 	char path_escaped[256];
-	for (int i = 0; i < strlen(path); ++i)
+	for (unsigned int i = 0; i < strlen(path); ++i)
 	{
 		if (path[i] == ' ')
 		{
@@ -160,7 +160,7 @@ int journal_timestamp_open_no_write(char path[],tm target_time, tm journal_time)
 	}
 	int j = 0;
 	char path_escaped[256];
-	for (int i = 0; i < strlen(path); ++i)
+	for (unsigned int i = 0; i < strlen(path); ++i)
 	{
 		if (path[i] == ' ')
 		{
