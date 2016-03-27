@@ -261,9 +261,14 @@ int main(int argc, char const *argv[])
 			{
 				flag_open = true;
 			}
-			else if(!strcmp(argv[i], "-y"))
+			if(!strcmp(argv[i], "-y"))
 			{
 				journal_time.tm_mday -= 1;
+				mktime(&journal_time);
+			}
+			if(!strcmp(argv[i], "-yw"))
+			{
+				journal_time.tm_mday -= 7;
 				mktime(&journal_time);
 			}
 		}
