@@ -182,7 +182,13 @@ int journal_timestamp_open_no_write(char path[],tm target_time, tm journal_time)
 			j++;
 		}
 	}
-	snprintf(program_call, 100, "subl %s -n", path_escaped);
+	// snprintf(program_call, 100, "subl %s -n", path_escaped);
+	if(text_editor == "sublime"){
+		snprintf(program_call, 100, "subl %s -n", path_escaped);
+	}
+	else if(text_editor == "atom"){
+		snprintf(program_call, 100, "atom %s -n", path_escaped);
+	}
 	program_call[strlen(program_call)] = 0;
 	std::cout << program_call << endl;
 	// char column_selector[100];
