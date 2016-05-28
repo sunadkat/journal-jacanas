@@ -42,7 +42,7 @@ int journal_raw_template(char path[],tm target_time, tm journal_time){
 		mktime(&journal_time);
 		strftime(temp_date, strlen("1970-01-01"), "%F", &journal_time);
 		journal_time.tm_mday += i;
-		fs << "###" << temp_date << std::endl;
+		fs << "### " << temp_date << std::endl;
 	}
 	fs.close();
 	return 0;
