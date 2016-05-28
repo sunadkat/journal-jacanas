@@ -18,6 +18,8 @@
 #include <vector>
 using namespace std;
 
+string text_editor = "atom";
+
 /*
  * REFERENCE FOR MY PURPOSES
  * Sublime accepts argument ':line-number:column-number' to indicate position for the cursor.
@@ -118,7 +120,12 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 			j++;
 		}
 	}
-	snprintf(program_call, 100, "subl %s:%d:%d -n", path_escaped, line_number + 3,0);
+	if(text_editor == "sublime"){
+		snprintf(program_call, 100, "subl %s:%d:%d -n", path_escaped, line_number + 3,0);
+	}
+	else if(text_editor == "atom"){
+		snprintf(program_call, 100, "atom %s:%d -n", path_escaped, line_number + 3);
+	}
 	program_call[strlen(program_call)] = 0;
 	std::cout << program_call << endl;
 	// char column_selector[100];
