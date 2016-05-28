@@ -253,17 +253,29 @@ int main(int argc, char const *argv[])
 	// -o: opens document without timestamp or setting to write
 	// -y: sets the day to one day before input (typically yesterday)
 	bool flag_open = false;
+	string parameter;
 	if (argc > 1)
 	{
 		for (int i = 0; i < argc; ++i)
 		{
+			parameter = argv[i];
 			if (!strcmp(argv[i], "-o"))
 			{
 				flag_open = true;
 			}
-			else if(!strcmp(argv[i], "-y"))
+			if(!strcmp(argv[i], "-y"))
 			{
 				journal_time.tm_mday -= 1;
+				mktime(&journal_time);
+			}
+			if(!strcmp(argv[i], "-yw"))
+			{
+				journal_time.tm_mday -= 7;
+				mktime(&journal_time);
+			}
+			if(parameter.find("-yw=") != string::npos){
+				int weeks_back = atoi(parameter.substr(4).c_str());
+				journal_time.tm_mday -= 7 * weeks_back;
 				mktime(&journal_time);
 			}
 		}
@@ -319,7 +331,7 @@ int main(int argc, char const *argv[])
 
 	if (!fs.is_open())
 	{
-		std::cout << "Something has happened! :S" << std::endl 
+		std::cout << "Something has happened! :S" << std::endl
 		<< "File could not be opened" << std::endl;
 		throw std::runtime_error("File could not be opened\n");
 	}
