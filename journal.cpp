@@ -244,7 +244,7 @@ int main(int argc, char const *argv[])
 	struct tm journal_time = *localtime(&raw_time);//Date of the journal itself
 	// struct tm current_time = *localtime(&raw_time);
 	//check for arguments to program
-	if (argc > 1 && strcmp(argv[1], "-n")) //If the user has entered something other than 'journal -n'
+	if (argc > 1 && strcmp(argv[1], "-n") && argv[1][0] != '-') //If the user has entered something other than 'journal -n'
 	{
 		if (validate_date(argv[1]))
 		{
