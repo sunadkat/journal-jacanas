@@ -124,7 +124,7 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 		snprintf(program_call, 100, "subl %s:%d:%d -n", path_escaped, line_number + 3,0);
 	}
 	else if(text_editor == "atom"){
-		snprintf(program_call, 100, "atom %s:%d -n", path_escaped, line_number + 3);
+		snprintf(program_call, 100, "atom --safe %s:%d -n", path_escaped, line_number + 3);
 	}
 	program_call[strlen(program_call)] = 0;
 	std::cout << program_call << endl;
@@ -187,7 +187,7 @@ int journal_timestamp_open_no_write(char path[],tm target_time, tm journal_time)
 		snprintf(program_call, 100, "subl %s -n", path_escaped);
 	}
 	else if(text_editor == "atom"){
-		snprintf(program_call, 100, "atom %s -n", path_escaped);
+		snprintf(program_call, 100, "atom --safe %s -n", path_escaped);
 	}
 	program_call[strlen(program_call)] = 0;
 	std::cout << program_call << endl;
