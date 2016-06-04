@@ -18,6 +18,8 @@
 #include <vector>
 using namespace std;
 
+string text_editor = "atom";
+
 /*
  * REFERENCE FOR MY PURPOSES
  * Sublime accepts argument ':line-number:column-number' to indicate position for the cursor.
@@ -40,7 +42,7 @@ int journal_raw_template(char path[],tm target_time, tm journal_time){
 		mktime(&journal_time);
 		strftime(temp_date, strlen("1970-01-01"), "%F", &journal_time);
 		journal_time.tm_mday += i;
-		fs << "###" << temp_date << std::endl;
+		fs << "### " << temp_date << std::endl;
 	}
 	fs.close();
 	return 0;
@@ -118,7 +120,12 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 			j++;
 		}
 	}
-	snprintf(program_call, 100, "subl %s:%d:%d -n", path_escaped, line_number + 3,0);
+	if(text_editor == "sublime"){
+		snprintf(program_call, 100, "subl %s:%d:%d -n", path_escaped, line_number + 3,0);
+	}
+	else if(text_editor == "atom"){
+		snprintf(program_call, 100, "atom --safe %s:%d -n", path_escaped, line_number + 3);
+	}
 	program_call[strlen(program_call)] = 0;
 	std::cout << program_call << endl;
 	// char column_selector[100];
@@ -175,7 +182,13 @@ int journal_timestamp_open_no_write(char path[],tm target_time, tm journal_time)
 			j++;
 		}
 	}
-	snprintf(program_call, 100, "subl %s -n", path_escaped);
+	// snprintf(program_call, 100, "subl %s -n", path_escaped);
+	if(text_editor == "sublime"){
+		snprintf(program_call, 100, "subl %s -n", path_escaped);
+	}
+	else if(text_editor == "atom"){
+		snprintf(program_call, 100, "atom --safe %s -n", path_escaped);
+	}
 	program_call[strlen(program_call)] = 0;
 	std::cout << program_call << endl;
 	// char column_selector[100];
@@ -231,7 +244,7 @@ int main(int argc, char const *argv[])
 	struct tm journal_time = *localtime(&raw_time);//Date of the journal itself
 	// struct tm current_time = *localtime(&raw_time);
 	//check for arguments to program
-	if (argc > 1 && strcmp(argv[1], "-n")) //If the user has entered something other than 'journal -n'
+	if (argc > 1 && strcmp(argv[1], "-n") && argv[1][0] != '-') //If the user has entered something other than 'journal -n'
 	{
 		if (validate_date(argv[1]))
 		{
