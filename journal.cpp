@@ -63,6 +63,7 @@ int journal_timestamp_open(char path[],tm target_time, tm journal_time){
 	if (mktime(&target_time) != mktime(&journal_time))
 	{
 		target_time.tm_mday += 1;
+		mktime(&target_time);
 		char entry_date[] = "1969-12-31";
 		strftime(entry_date, strlen("1970-01-01"), "%F", &target_time); //String is entry date plus one
 		entry_pos = journal_text.rfind(entry_date, journal_text.length());
