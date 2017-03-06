@@ -29,6 +29,21 @@ class journal_entry():
             # Write journal template
         return
 
+    def get_journal_template(self):
+        template = """{}
+Informal
+Journal
+Joshua Wu
+
+### {}
+### {}
+### {}
+### {}
+### {}
+### {}
+### {}
+"""
+        return template
     def find_entry_point(self):
         self.line_entry_point = 0
         formatted_entry_date = "### 2017-01-01" # TODO Placeholder entry
