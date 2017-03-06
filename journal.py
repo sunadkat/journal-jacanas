@@ -69,7 +69,4 @@ Joshua Wu
         return self.line_entry_point
 
 if __name__ == "__main__":
-    # Check for number of arguments
-    # Parse Options
-    # Parse Input Date
-    print sys.argv
+    return
