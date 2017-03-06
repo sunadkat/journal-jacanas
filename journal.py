@@ -26,7 +26,7 @@ class journal_entry():
         return self.journal_date
 
     def get_file_name(self):
-        self.file_name = self.journal_date[:10] + " Journal.md"
+        self.file_name = self.journal_date.isoformat()[:10] + " Journal.md"
         return self.file_name
 
     def open_journal(self):
