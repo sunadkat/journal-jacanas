@@ -2,6 +2,14 @@
 
 import sys
 import datetime
+
+def check_date(input_date):
+    return False
+
+def parse_date(input_date):
+    # Parse date
+    return input_date
+
 class journal_entry():
     def __init__(self):
         self.entry_date = datetime.datetime.now()
@@ -53,6 +61,13 @@ Joshua Wu
             if line == formatted_entry_date:
                 return self.line_entry_point
         return -1
+
+    def insert_timestamp(self):
+        return
+
+    def get_line_entry_point(self):
+        return self.line_entry_point
+
 if __name__ == "__main__":
     # Check for number of arguments
     # Parse Options
