@@ -20,6 +20,15 @@ class journal_entry():
     def get_file_name(self):
         self.file_name = self.journal_date[:10] + " Journal.md"
         return self.file_name
+
+    def open_journal(self):
+        if os.path.exists(self.directory + self.file_name):
+            self.file = open(self.directory + self.filename, 'r+')
+        else:
+            self.file = open(self.directory + self.filename, 'w+')
+            # Write journal template
+        return
+
     def find_entry_point(self):
         self.line_entry_point = 0
         formatted_entry_date = "### 2017-01-01" # TODO Placeholder entry
