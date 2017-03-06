@@ -21,8 +21,8 @@ class journal_entry():
         self.file
 
     def get_journal_week(self):
-        days_from_last_sunday = (self.entry_day.weekday() + 1)%7
-        self.journal_date = self.entry_day - datetime.timedelta(days_from_last_sunday)
+        days_from_last_sunday = (self.entry_date.weekday() + 1)%7
+        self.journal_date = self.entry_date - datetime.timedelta(days_from_last_sunday)
         return self.journal_date
 
     def get_file_name(self):
