@@ -50,7 +50,14 @@ Joshua Wu
 ### {}
 ### {}
 ### {}
-"""
+""".format(self.journal_date.isoformat()[:10],
+        (self.journal_date - datetime.timedelta(6)).isoformat()[:10],
+        (self.journal_date - datetime.timedelta(5)).isoformat()[:10],
+        (self.journal_date - datetime.timedelta(4)).isoformat()[:10],
+        (self.journal_date - datetime.timedelta(3)).isoformat()[:10],
+        (self.journal_date - datetime.timedelta(2)).isoformat()[:10],
+        (self.journal_date - datetime.timedelta(1)).isoformat()[:10],
+        (self.journal_date - datetime.timedelta(0)).isoformat()[:10])
         return template
     def find_entry_point(self):
         self.line_entry_point = 0
