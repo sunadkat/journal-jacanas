@@ -54,7 +54,7 @@ Joshua Wu
         return template
     def find_entry_point(self):
         self.line_entry_point = 0
-        formatted_entry_date = "### 2017-01-01" # TODO Placeholder entry
+        formatted_entry_date = "### " + self.entry_date.isoformat()[:10]
         for line in self.open_file:
             self.line_entry_point += 1
             file_buffer.append(line)
