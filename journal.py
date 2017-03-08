@@ -59,14 +59,25 @@ Joshua Wu
         (self.journal_date - datetime.timedelta(1)).isoformat()[:10],
         (self.journal_date - datetime.timedelta(0)).isoformat()[:10])
         return template
+
     def find_entry_point(self):
         self.line_entry_point = 0
-        formatted_entry_date = "### " + self.entry_date.isoformat()[:10]
-        for line in self.open_file:
-            self.line_entry_point += 1
-            file_buffer.append(line)
-            if line == formatted_entry_date:
-                return self.line_entry_point
+        if(self.entry_date.isoformat()[:10] == self.journal_date.isoformat()[:10]):
+            # Is on a sunday, entry is at the end
+            file_length = 0
+            for i in open_file:
+                file_length += 1
+            self.line_entry_point = file_length
+            open_file.seek(0)
+            return file_length
+        else:
+            # Searching for the day after the desired entry
+            formatted_entry_date = "### " + (self.entry_date + datetime.timedelta(1)).isoformat()[:10]
+            for line in self.open_file:
+                if line == formatted_entry_date:
+                    return self.line_entry_point
+                else:
+                    self.line_entry_point += 1
         return -1
 
     def insert_timestamp(self):
