@@ -16,10 +16,9 @@ class journal_entry():
         self.entry_date = datetime.datetime.now()
         self.journal_date = self.get_journal_week()
         self.file_name = self.get_file_name()
-        self.line_entry_point = self.find_entry_point()
+        self.line_entry_point = 0
         self.file_buffer = []
-        self.directory = ""
-        self.file
+        self.directory = "/journal"
 
     def get_journal_week(self):
         days_to_next_sunday = (7 - self.entry_date.isoweekday())
