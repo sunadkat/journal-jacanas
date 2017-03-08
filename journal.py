@@ -29,13 +29,13 @@ class journal_entry():
         self.file_name = self.journal_date.isoformat()[:10] + " Journal.md"
         return self.file_name
 
-    def open_journal(self):
+    def open_journal(self, journal_name):
         if os.path.exists(self.directory + self.file_name):
-            self.file = open(self.directory + self.file_name, 'r+')
+            file = open(self.directory + self.file_name, 'r+')
         else:
-            self.file = open(self.directory + self.file_name, 'w+')
+            file = open(self.directory + self.file_name, 'w+')
             # Write journal template
-        return
+        return file.readlines()
 
     def get_journal_template(self):
         template = """{}
