@@ -31,9 +31,9 @@ class journal_entry():
 
     def open_journal(self):
         if os.path.exists(self.directory + self.file_name):
-            self.file = open(self.directory + self.filename, 'r+')
+            self.file = open(self.directory + self.file_name, 'r+')
         else:
-            self.file = open(self.directory + self.filename, 'w+')
+            self.file = open(self.directory + self.file_name, 'w+')
             # Write journal template
         return
 
