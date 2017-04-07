@@ -3,7 +3,7 @@ This is a collection of tools and scripts which were useful to me or fun to make
 ##Journal
 This will create simple journal templates and open them if they already exist. Examples of journal templates will be shown below. Journals are in markdown format.
 
-**NOTE** if you use atom put the whitespace back the way you found it!
+**NOTE** if you use an atom put the whitespace back the way you found it!
 
 **WARNING** This currently uses a system call to run "subl" which should open up sublime with some arguments. This is very unsafe. Use at your own risk.
 
